@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment 
+  labels:
+    app: simple-application
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: simple-application
+  template:
+    metadata:
+      labels:
+        app: simple-application
+    spec:
+      containers:
+      - name: simple-application
+        image: cubensquare/tomcat-application-srija:latest 
+        ports:
+        - containerPort: 9090
