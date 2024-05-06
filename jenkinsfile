@@ -1,0 +1,41 @@
+pipeline {
+  environment {
+    dockerimagename = "cubensquare/tomcat-application-srija:latest "
+    dockerImage = ""
+  }
+  agent any
+  stages {
+    stage('Checkout Source') {
+      steps {
+        git 'https://github.com/srijavignesh/jenkins-.git'
+      }
+    }
+    stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build dockerimagename
+        }
+      }
+    }
+    stage('Pushing Image') {
+      environment {
+          dockerhubCredential = 'dockerhub-credentials'
+           }
+      steps{
+        script {
+          docker.withRegistry( 'https://registry.hub.docker.com', dockerhubCredential) {
+            dockerImage.push("latest")
+          }
+        }
+      }
+    }
+    stage('Deploying warfile in tomcat container to Kubernetes') {
+      steps {
+        script {
+          kubernetesDeploy(configs: "deployment.yaml", 
+                                         "service.yaml")
+        }
+      }
+    }
+  }
+}
