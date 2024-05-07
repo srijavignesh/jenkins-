@@ -7,5 +7,5 @@ spec:
     app: simple-application
   type: NodePort
   ports:
-    port: 9001 #Service port
-    targetPort: 9001
+    port: 8080 #Service port
+    targetPort: 8080
