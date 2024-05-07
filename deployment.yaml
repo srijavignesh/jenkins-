@@ -18,4 +18,4 @@ spec:
       - name: simple-application
         image: srijavignesh/tomcat-application:latest
         ports:
-        - containerPort: 9001
+        - containerPort: 8080
