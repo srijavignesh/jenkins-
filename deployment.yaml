@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: simple-application
-        image: cubensquare/tomcat-application-srija:latest 
+        image: srijavignesh/tomcat-application:latest
         ports:
         - containerPort: 9090
