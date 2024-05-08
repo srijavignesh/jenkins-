@@ -1,0 +1,32 @@
+pipeline {
+  environment {
+    dockerimagename = "srijavignesh/tomcat-srija"
+    dockerImage = ""
+  }
+  agent any
+  stages {
+    stage('Checkout Source') {
+      steps {
+        sh "rm -rf jenkins-"
+        sh "git clone https://github.com/srijavignesh/jenkins-"
+      }
+    }
+    stage('copy docker file to workspace and build image ') {
+      steps{
+        sh "sudo cp /var/lib/jenkins/workspace/gittest_srja/jenkins-/Dockerfile /var/lib/jenkins/workspace/gittest_srja/"
+        sh "sudo docker build . -t srijavignesh/tomcat-application"
+      }
+    }
+    stage('Pushing Image') {
+      steps{
+          sh "sudo cat password.txt | sudo docker login --username srijavignesh --password-stdin"
+          sh "sudo docker push srijavignesh/tomcat-application:latest"
+        }
+      }
+    stage('deploy as a Pod') {
+      steps{
+          sh "kubectl create -f deployment.yaml"
+          sh "kubectl create -f service.yaml"
+        }
+    }
+  }
