@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    dockerimagename = "cubensquare/tomcat-application-srija:latest "
+    dockerimagename = "srijavignesh/tomcat-application-srija:latest "
     dockerImage = ""
   }
   agent any
